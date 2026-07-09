@@ -10,7 +10,7 @@ import { seedProducts, seedBundles, seedOffers, seedCategories } from "./seed";
  * helpers below with Supabase queries (see supabase/schema.sql and lib/supabase.ts).
  */
 
-const KEY = "electrozone_state_v2";
+const KEY = "electrozone_state_v3";
 
 interface State {
   categories: Category[];

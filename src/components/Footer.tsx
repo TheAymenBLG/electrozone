@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LOGO_URL, PHONE, SOCIALS } from "../data/brand";
+import { LOGO_URL, PHONE, SOCIALS, BRANDS } from "../data/brand";
 
 export default function Footer() {
   return (
@@ -13,7 +13,6 @@ export default function Footer() {
           </p>
           <p className="text-cloud-muted font-mono text-xs pt-4">© {new Date().getFullYear()} ElectroZone Algeria. Engineering Excellence.</p>
         </div>
-
         <div className="space-y-3">
           <h4 className="font-head font-bold text-cloud mb-4">Informations</h4>
           <Link to="/cart" className="block text-cloud-muted hover:text-gold transition-colors text-sm">Mon panier</Link>
@@ -21,18 +20,16 @@ export default function Footer() {
           <Link to="/admin" className="block text-cloud-muted hover:text-gold transition-colors text-sm">Tableau de bord</Link>
           <span className="block text-cloud-muted text-sm">Tél : {PHONE}</span>
         </div>
-
         <div className="space-y-3">
           <h4 className="font-head font-bold text-cloud mb-4">Suivez-nous</h4>
           <a href={SOCIALS.facebook} target="_blank" rel="noreferrer" className="block text-cloud-muted hover:text-gold transition-colors text-sm">Facebook</a>
           <a href={SOCIALS.instagram} target="_blank" rel="noreferrer" className="block text-cloud-muted hover:text-gold transition-colors text-sm">Instagram</a>
           <a href={SOCIALS.tiktok} target="_blank" rel="noreferrer" className="block text-cloud-muted hover:text-gold transition-colors text-sm">TikTok</a>
         </div>
-
         <div className="space-y-3">
           <h4 className="font-head font-bold text-cloud mb-4">Nos marques</h4>
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-cloud-muted font-mono text-xs">
-            {["Cristor", "Condor", "Beko", "Maxwell", "DigiTech", "Bosch"].map((b) => (
+            {BRANDS.map((b) => (
               <span key={b}>{b}</span>
             ))}
           </div>

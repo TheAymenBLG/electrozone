@@ -17,10 +17,7 @@ body {
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
 }
-.input:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #e11b22;
-}
+.input:focus { outline: none; box-shadow: 0 0 0 2px #e11b22; }
 
 .glow-hover:hover {
   box-shadow: 0 0 22px rgba(250, 189, 0, 0.15);

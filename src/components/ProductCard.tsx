@@ -16,12 +16,8 @@ export default function ProductCard({ product, offers }: { product: Product; off
           -{pr.discountPct}%
         </div>
       )}
-      <Link to={`/p/${product.id}`} className="aspect-square bg-navy-tile mb-5 rounded-lg overflow-hidden flex items-center justify-center">
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+      <Link to={`/p/${product.id}`} className="aspect-square bg-navy-tile mb-5 rounded-lg overflow-hidden flex items-center justify-center p-4">
+        <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
       </Link>
       <div className="flex-grow">
         <p className="font-mono text-[11px] text-cloud-muted mb-1 uppercase tracking-wider">{product.brand}</p>
@@ -35,10 +31,7 @@ export default function ProductCard({ product, offers }: { product: Product; off
           )}
         </div>
       </div>
-      <button
-        onClick={() => add("product", product.id)}
-        className="w-full py-3 border border-edge rounded font-mono text-sm text-cloud hover:border-gold hover:text-gold transition-colors flex items-center justify-center gap-2 mt-auto"
-      >
+      <button onClick={() => add("product", product.id)} className="w-full py-3 border border-edge rounded font-mono text-sm text-cloud hover:border-gold hover:text-gold transition-colors flex items-center justify-center gap-2 mt-auto">
         <ShoppingCart size={15} /> AJOUTER AU PANIER
       </button>
     </div>

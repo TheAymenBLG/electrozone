@@ -1,6 +1,7 @@
-// Real brand assets from electrozone-dz.com
-export const LOGO_URL =
-  "https://electrozone-dz.com/wp-content/uploads/2025/05/454312385_1020227716774458_3365996312916826261_n-2-Photoroom-1.png";
+// Real brand assets (local files in public/img)
+export const LOGO_URL = "/img/logo.png";
+export const BANNER_FOURS = "/img/banner-fours.png";
+export const BANNER_OFFERS = "/img/banner-offers.png";
 
 export const PHONE = "0554 57 66 64";
 
@@ -11,3 +12,17 @@ export const SOCIALS = {
 };
 
 export const TRUST = ["Produits originaux", "Livraison 58 wilayas", "Paiement à la livraison"];
+
+export const BRANDS = [
+  "Géant Electronics",
+  "Maxwell Electronics",
+  "DigiTech",
+  "Condor",
+  "Cristor",
+  "IRIS",
+  "Bosch",
+  "Delonghi",
+  "Bomann",
+  "Bissell",
+  "Beko",
+];

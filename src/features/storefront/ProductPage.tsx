@@ -36,7 +36,7 @@ export default function ProductPage() {
               -{pr.discountPct}%
             </span>
           )}
-          <img src={product.imageUrl} alt={product.name} className="w-full aspect-square object-cover" />
+          <img src={product.imageUrl} alt={product.name} className="w-full aspect-square object-contain p-8" />
         </div>
         <div>
           <p className="font-mono text-xs text-cloud-muted uppercase tracking-wider">{product.brand}</p>

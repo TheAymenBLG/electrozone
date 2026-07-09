@@ -1,6 +1,5 @@
 import type { Category, Product, Bundle, Offer } from "../types";
 
-// Real categories from electrozone-dz.com
 export const seedCategories: Category[] = [
   { id: "c1", name: "Réfrigérateur", slug: "refrigerateur" },
   { id: "c2", name: "Congélateur", slug: "congelateur" },
@@ -13,18 +12,10 @@ export const seedCategories: Category[] = [
   { id: "c9", name: "Aspirateur", slug: "aspirateur" },
 ];
 
-// Category-matched placeholder photos, swapped for real site images once scraped.
-const IMG = {
-  coffee: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=600&q=60",
-  vacuum: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=600&q=60",
-  fridge: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&w=600&q=60",
-  washer: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=600&q=60",
-  tv: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=600&q=60",
-  stove: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=600&q=60",
-  micro: "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?auto=format&fit=crop&w=600&q=60",
-};
+// Real product photos (transparent PNGs in public/img)
+const washerImg = "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=600&q=60";
+const microImg = "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?auto=format&fit=crop&w=600&q=60";
 
-// --- Real products scraped from electrozone-dz.com ---
 export const seedProducts: Product[] = [
   {
     id: "p1",
@@ -35,7 +26,7 @@ export const seedProducts: Product[] = [
     stock: 8,
     description:
       "L'aspirateur à eau CrossWave C3 Select aspire, lave et sèche vos sols simultanément. Technologie BISSELL FreshStart pour éliminer les odeurs, double réservoir amovible (eau propre 0,82 L / eau usée 0,62 L).",
-    imageUrl: IMG.vacuum,
+    imageUrl: "/img/vacuum-bissell-crosswave.png",
     specs: { type: "Balai laveur", puissance: "560 W", brosse: "3500 tr/min", technologie: "FreshStart" },
     isActive: true,
   },
@@ -46,9 +37,8 @@ export const seedProducts: Product[] = [
     categorySlug: "aspirateur",
     price: 69900,
     stock: 5,
-    description:
-      "Aspirateur balai laveur sans fil : aspire et lave en un seul passage. Léger, maniable, autonomie prolongée pour toute la maison.",
-    imageUrl: IMG.vacuum,
+    description: "Aspirateur balai laveur sans fil : aspire et lave en un seul passage. Léger, maniable, autonomie prolongée pour toute la maison.",
+    imageUrl: "/img/vacuum-bissell-stick.png",
     specs: { type: "Balai laveur", alimentation: "Sans fil", usage: "Multi-surfaces" },
     isActive: true,
   },
@@ -59,9 +49,8 @@ export const seedProducts: Product[] = [
     categorySlug: "aspirateur",
     price: 65500,
     stock: 4,
-    description:
-      "Injecteur/extracteur portable pour venir à bout des taches tenaces sur tapis, moquettes et tissus d'ameublement.",
-    imageUrl: IMG.vacuum,
+    description: "Injecteur/extracteur portable pour venir à bout des taches tenaces sur tapis, moquettes et tissus d'ameublement.",
+    imageUrl: "/img/vacuum-bissell-spotclean.png",
     specs: { type: "Injecteur/Extracteur", cuve: "3,7 L", puissance: "750 W" },
     isActive: true,
   },
@@ -72,9 +61,8 @@ export const seedProducts: Product[] = [
     categorySlug: "machine-a-cafe",
     price: 23500,
     stock: 12,
-    description:
-      "Cafetière expresso multi-capsules 4-en-1 : compatible café moulu, capsules Nespresso, Dolce Gusto et dosettes ESE 44 mm. Compacte, idéale pour petites cuisines ou bureaux.",
-    imageUrl: IMG.coffee,
+    description: "Cafetière expresso multi-capsules 4-en-1 : compatible café moulu, capsules Nespresso, Dolce Gusto et dosettes ESE 44 mm. Compacte, idéale pour petites cuisines ou bureaux.",
+    imageUrl: "/img/coffee-bomann-19bars.png",
     specs: { sku: "ES1190CB", puissance: "1450 W", pression: "19 bars", reservoir: "0,8 L amovible" },
     isActive: true,
   },
@@ -85,9 +73,8 @@ export const seedProducts: Product[] = [
     categorySlug: "machine-a-cafe",
     price: 27500,
     stock: 9,
-    description:
-      "Expresso 4-en-1 : poudre, capsules et dosettes, avec buse vapeur pour un lait bien mousseux.",
-    imageUrl: IMG.coffee,
+    description: "Expresso 4-en-1 : poudre, capsules et dosettes, avec buse vapeur pour un lait bien mousseux.",
+    imageUrl: "/img/coffee-bomann-1450.png",
     specs: { type: "Expresso", pression: "19 bars", buse: "Vapeur" },
     isActive: true,
   },
@@ -98,9 +85,8 @@ export const seedProducts: Product[] = [
     categorySlug: "aspirateur",
     price: 46500,
     stock: 6,
-    description:
-      "Injecteur/extracteur 4-en-1 pour un nettoyage en profondeur des sols, tapis et tissus.",
-    imageUrl: IMG.vacuum,
+    description: "Injecteur/extracteur 4-en-1 pour un nettoyage en profondeur des sols, tapis et tissus.",
+    imageUrl: "/img/shark-vacuum.png",
     specs: { type: "Injecteur/Extracteur", usage: "Tapis & tissus" },
     isActive: true,
   },
@@ -111,9 +97,8 @@ export const seedProducts: Product[] = [
     categorySlug: "aspirateur",
     price: 89900,
     stock: 3,
-    description:
-      "Injecteur/extracteur haut de gamme Bosch Serie 4 pour un nettoyage en profondeur et un séchage rapide.",
-    imageUrl: IMG.vacuum,
+    description: "Injecteur/extracteur haut de gamme Bosch Serie 4 pour un nettoyage en profondeur et un séchage rapide.",
+    imageUrl: "/img/vacuum-bosch.png",
     specs: { type: "Injecteur/Extracteur", serie: "Serie 4" },
     isActive: true,
   },
@@ -124,9 +109,8 @@ export const seedProducts: Product[] = [
     categorySlug: "machine-a-cafe",
     price: 39900,
     stock: 7,
-    description:
-      "Machine espresso élégante et compacte au corps en acier inoxydable. Technologie Thermoblock pour la température idéale et système Cappuccino réglable pour une mousse de lait crémeuse.",
-    imageUrl: IMG.coffee,
+    description: "Machine espresso élégante et compacte au corps en acier inoxydable. Technologie Thermoblock pour la température idéale et système Cappuccino réglable pour une mousse de lait crémeuse.",
+    imageUrl: "/img/coffee-delonghi-dedica.png",
     specs: { sku: "EC685M", pression: "15 bars", chauffe: "Thermoblock", corps: "Acier inoxydable" },
     isActive: true,
   },
@@ -137,9 +121,8 @@ export const seedProducts: Product[] = [
     categorySlug: "machine-a-cafe",
     price: 59900,
     stock: 6,
-    description:
-      "Machine à capsules Nespresso avec système lait automatique : cappuccino et latte macchiato d'une simple pression.",
-    imageUrl: IMG.coffee,
+    description: "Machine à capsules Nespresso avec système lait automatique : cappuccino et latte macchiato d'une simple pression.",
+    imageUrl: "/img/coffee-lattissima.png",
     specs: { type: "Capsules", systeme: "Nespresso", lait: "Automatique" },
     isActive: true,
   },
@@ -150,9 +133,8 @@ export const seedProducts: Product[] = [
     categorySlug: "machine-a-cafe",
     price: 36000,
     stock: 10,
-    description:
-      "Machine expresso manuelle 15 bars avec buse cappuccino pour un lait onctueux. Design compact noir.",
-    imageUrl: IMG.coffee,
+    description: "Machine expresso manuelle 15 bars avec buse cappuccino pour un lait onctueux. Design compact noir.",
+    imageUrl: "/img/coffee-delonghi-black.png",
     specs: { sku: "EC235.BK", pression: "15 bars", buse: "Cappuccino" },
     isActive: true,
   },
@@ -164,7 +146,7 @@ export const seedProducts: Product[] = [
     price: 128000,
     stock: 6,
     description: "Réfrigérateur combiné No Frost grande capacité, classe A+.",
-    imageUrl: IMG.fridge,
+    imageUrl: "/img/fridge.png",
     specs: { capacite: "470 L", technologie: "No Frost", classe: "A+" },
     isActive: true,
   },
@@ -176,7 +158,7 @@ export const seedProducts: Product[] = [
     price: 62000,
     stock: 9,
     description: "Lave-linge frontal 8 kg, 1200 tr/min, 15 programmes.",
-    imageUrl: IMG.washer,
+    imageUrl: washerImg,
     specs: { capacite: "8 kg", essorage: "1200 tr/min", programmes: "15" },
     isActive: true,
   },
@@ -188,7 +170,7 @@ export const seedProducts: Product[] = [
     price: 48000,
     stock: 7,
     description: "Cuisinière à gaz 4 feux avec four et allumage électrique.",
-    imageUrl: IMG.stove,
+    imageUrl: "/img/oven.png",
     specs: { feux: "4", four: "Gaz", allumage: "Électrique" },
     isActive: true,
   },
@@ -200,7 +182,7 @@ export const seedProducts: Product[] = [
     price: 21500,
     stock: 11,
     description: "Four micro-ondes 25 L avec grill, 900 W.",
-    imageUrl: IMG.micro,
+    imageUrl: microImg,
     specs: { capacite: "25 L", puissance: "900 W", grill: "Oui" },
     isActive: true,
   },
@@ -212,8 +194,20 @@ export const seedProducts: Product[] = [
     price: 74900,
     stock: 5,
     description: "Smart TV LED 55 pouces UHD 4K, Android TV intégré.",
-    imageUrl: IMG.tv,
+    imageUrl: "/img/tv.png",
     specs: { taille: '55"', resolution: "4K UHD", os: "Android TV" },
+    isActive: true,
+  },
+  {
+    id: "p16",
+    name: "Techwood Robot Pétrin 1200W",
+    brand: "Techwood",
+    categorySlug: "cuisiniere",
+    price: 34900,
+    stock: 8,
+    description: "Robot pâtissier multifonction avec bol inox, fouet, crochet et batteur. Idéal pour pâtisserie et boulangerie maison.",
+    imageUrl: "/img/mixer.png",
+    specs: { puissance: "1200 W", bol: "Inox 5 L", vitesses: "6" },
     isActive: true,
   },
 ];
@@ -222,9 +216,8 @@ export const seedBundles: Bundle[] = [
   {
     id: "b1",
     name: "Pack Mariage",
-    description:
-      "L'essentiel électroménager pour bien démarrer : réfrigérateur, machine à laver, cuisinière et micro-onde.",
-    imageUrl: IMG.fridge,
+    description: "L'essentiel électroménager pour bien démarrer : réfrigérateur, machine à laver, cuisinière et micro-onde.",
+    imageUrl: "/img/fridge.png",
     items: [
       { productId: "p11", quantity: 1 },
       { productId: "p12", quantity: 1 },
@@ -238,7 +231,7 @@ export const seedBundles: Bundle[] = [
     id: "b2",
     name: "Pack Café",
     description: "Pour les amateurs de café : expresso Delonghi Dedica + machine à capsules Lattissima.",
-    imageUrl: IMG.coffee,
+    imageUrl: "/img/coffee-delonghi-dedica.png",
     items: [
       { productId: "p8", quantity: 1 },
       { productId: "p9", quantity: 1 },
@@ -253,37 +246,7 @@ const inDays = (n: number) => new Date(today.getTime() + n * 86400000).toISOStri
 const agoDays = (n: number) => new Date(today.getTime() - n * 86400000).toISOString().slice(0, 10);
 
 export const seedOffers: Offer[] = [
-  {
-    id: "o1",
-    title: "-14% BOSCH Aqua Wash",
-    type: "percentage",
-    value: 14,
-    scope: "product",
-    targetId: "p7",
-    startsAt: agoDays(5),
-    endsAt: inDays(20),
-    isActive: true,
-  },
-  {
-    id: "o2",
-    title: "-13% Delonghi Dedica",
-    type: "percentage",
-    value: 13,
-    scope: "product",
-    targetId: "p8",
-    startsAt: agoDays(3),
-    endsAt: inDays(15),
-    isActive: true,
-  },
-  {
-    id: "o3",
-    title: "Promo Machine à café -10%",
-    type: "percentage",
-    value: 10,
-    scope: "category",
-    targetId: "machine-a-cafe",
-    startsAt: agoDays(1),
-    endsAt: inDays(10),
-    isActive: true,
-  },
+  { id: "o1", title: "-14% BOSCH Aqua Wash", type: "percentage", value: 14, scope: "product", targetId: "p7", startsAt: agoDays(5), endsAt: inDays(20), isActive: true },
+  { id: "o2", title: "-13% Delonghi Dedica", type: "percentage", value: 13, scope: "product", targetId: "p8", startsAt: agoDays(3), endsAt: inDays(15), isActive: true },
+  { id: "o3", title: "Promo Machine à café -10%", type: "percentage", value: 10, scope: "category", targetId: "machine-a-cafe", startsAt: agoDays(1), endsAt: inDays(10), isActive: true },
 ];
