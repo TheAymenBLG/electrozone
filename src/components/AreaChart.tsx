@@ -1,7 +1,14 @@
-interface Props { labels: string[]; data: number[]; color?: string; height?: number; }
+interface Props {
+  labels: string[];
+  data: number[];
+  color?: string;
+  height?: number;
+  gridColor?: string;
+  labelColor?: string;
+}
 
-export default function AreaChart({ labels, data, color = "#3fcfae", height = 240 }: Props) {
-  const W = 820, H = height, padX = 40, padTop = 16, padBottom = 28;
+export default function AreaChart({ labels, data, color = "#fabd00", height = 260, gridColor = "#2d313f", labelColor = "#8f8ba8" }: Props) {
+  const W = 820, H = height, padX = 44, padTop = 16, padBottom = 28;
   const max = Math.max(...data, 1) * 1.15;
   const x = (i: number) => padX + (i / (data.length - 1)) * (W - padX * 2);
   const y = (v: number) => padTop + (1 - v / max) * (H - padTop - padBottom);
@@ -30,15 +37,15 @@ export default function AreaChart({ labels, data, color = "#3fcfae", height = 24
         const gy = padTop + g * (H - padTop - padBottom);
         return (
           <g key={i}>
-            <line x1={padX} y1={gy} x2={W - padX} y2={gy} stroke="#eef2f1" strokeDasharray="5 5" />
-            <text x={8} y={gy + 4} fontSize="11" fill="#9ca3af">{Math.round((max * (1 - g)) / 1000)}k</text>
+            <line x1={padX} y1={gy} x2={W - padX} y2={gy} stroke={gridColor} strokeDasharray="5 5" />
+            <text x={8} y={gy + 4} fontSize="11" fill={labelColor}>{Math.round((max * (1 - g)) / 1000)}k</text>
           </g>
         );
       })}
       <path d={area} fill="url(#areaFill)" />
       <path d={line} fill="none" stroke={color} strokeWidth={2.5} strokeLinecap="round" />
       {labels.map((l, i) => (i % step === 0 ? (
-        <text key={i} x={x(i)} y={H - 8} fontSize="11" fill="#9ca3af" textAnchor="middle">{l}</text>
+        <text key={i} x={x(i)} y={H - 8} fontSize="11" fill={labelColor} textAnchor="middle">{l}</text>
       ) : null))}
     </svg>
   );
