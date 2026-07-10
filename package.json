@@ -1,32 +1,20 @@
 {
   "name": "electrozone",
   "private": true,
-  "version": "0.1.0",
-  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "@supabase/supabase-js": "^2.45.4",
-    "lucide-react": "^0.445.0",
-    "motion": "^11.11.17"
+    "dev:web": "npm run dev -w @electrozone/web",
+    "dev:api": "npm run dev -w @electrozone/api",
+    "build": "npm run build -w @electrozone/shared && npm run build -w @electrozone/api && npm run build -w @electrozone/web",
+    "typecheck": "npm run build -w @electrozone/shared && npm run typecheck -w @electrozone/api && npm run typecheck -w @electrozone/web",
+    "db:push": "npm run db:push -w @electrozone/api",
+    "db:seed": "npm run db:seed -w @electrozone/api",
+    "db:studio": "npm run db:studio -w @electrozone/api"
   },
   "devDependencies": {
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.6"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-win32-x64-msvc": "^4.24.0"
+    "typescript": "^5.5.4"
   }
 }

@@ -4,3 +4,5 @@ dist
 .env.local
 .DS_Store
 *.log
+apps/api/prisma/migrations/dev.db
+apps/api/prisma/migrations/dev.db-journal

@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  slug      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+
+  @@map("categories")
+}
+
+model Product {
+  id            String   @id @default(uuid())
+  name          String
+  brand         String
+  categorySlug  String
+  category      Category @relation(fields: [categorySlug], references: [slug])
+  price         Float
+  stock         Int      @default(0)
+  description   String   @default("")
+  imageUrl      String   @default("")
+  specs         Json     @default("{}")
+  isActive      Boolean  @default(true)
+  bundleItems   BundleItem[]
+  createdAt     DateTime @default(now())
+
+  @@map("products")
+}
+
+model Bundle {
+  id          String       @id @default(uuid())
+  name        String
+  description String       @default("")
+  imageUrl    String       @default("")
+  bundlePrice Float?
+  isActive    Boolean      @default(true)
+  items       BundleItem[]
+  createdAt   DateTime     @default(now())
+
+  @@map("bundles")
+}
+
+model BundleItem {
+  bundleId   String
+  productId  String
+  quantity   Int    @default(1)
+  bundle     Bundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([bundleId, productId])
+  @@map("bundle_items")
+}
+
+model Offer {
+  id        String   @id @default(uuid())
+  title     String
+  type      String
+  value     Float
+  scope     String
+  targetId  String?
+  startsAt  String
+  endsAt    String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("offers")
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  customerName String
+  phone        String
+  wilaya       String
+  address      String
+  status       String      @default("nouveau")
+  total        Float
+  items        OrderItem[]
+  createdAt    DateTime    @default(now())
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  kind      String
+  productId String?
+  bundleId  String?
+  quantity  Int     @default(1)
+  unitPrice Float
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}

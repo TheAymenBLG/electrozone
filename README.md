@@ -1,77 +1,88 @@
-# ElectroZone — React e-commerce + Admin Dashboard + AI Assistant
+# ElectroZone — E-commerce + Admin Dashboard + AI Assistant
 
 Hackathon build inspired by [electrozone-dz.com](https://electrozone-dz.com) — an Algerian appliance store. French UI, prices in DA.
 
-**It runs with zero backend setup.** Data is seeded with real ElectroZone products and persisted to your browser's localStorage, so admin CRUD works immediately. Supabase and Gemini are optional upgrades (see below).
+## Architecture
+
+Monorepo with npm workspaces:
+
+```
+apps/web/          React + Vite frontend (storefront + admin + AI assistant)
+apps/api/          Node/Express backend (routes → controllers → services → Prisma)
+packages/shared/   TypeScript types + Zod schemas (imported by both apps)
+```
+
+- The **frontend** never imports Prisma, never holds DB connection strings, never holds secret API keys. It only calls the backend over HTTP.
+- The **backend** is layered: routes wire controllers + validation + auth; controllers call services; services call Prisma. No route file contains raw SQL or business logic.
+- Every API endpoint's request shape is validated with `zod.safeParse()` via middleware, against schemas in `packages/shared/src/schemas.ts`.
+- Both apps import types from `@electrozone/shared` — no duplicated interfaces.
+- CORS on the backend is scoped to the frontend's origin (`WEB_ORIGIN`).
+- Admin/protected routes require a JWT (`requireAdmin` middleware) — not just hidden by frontend routing.
+- No cross-app imports: `apps/web` and `apps/api` only import from `@electrozone/shared`.
 
 ## Quick start
 
+### Prerequisites
+
+- Node 18+
+- PostgreSQL (local or Docker):
+  ```bash
+  docker run --name electrozone-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=electrozone -p 5432:5432 -d postgres:16
+  ```
+
+### Setup
+
 ```bash
+# 1. Install all workspace dependencies
 npm install
-npm run dev
+
+# 2. Configure the backend env
+cp .env.example apps/api/.env
+# edit apps/api/.env — set DATABASE_URL to your Postgres
+
+# 3. Create the DB schema + seed it with real ElectroZone products
+npm run db:push
+npm run db:seed
+
+# 4. Start both apps (in two terminals)
+npm run dev:api    # backend on http://localhost:4000
+npm run dev:web    # frontend on http://localhost:5173 (proxies /api → backend)
 ```
 
-Open the URL Vite prints (usually http://localhost:5173).
-
+Open http://localhost:5173:
 - Storefront: `/`
-- Admin dashboard: `/admin`
-- AI assistant: the blue chat bubble, bottom-right.
+- Admin dashboard: `/admin` (login with password `admin` by default)
+- AI assistant: the gold chat bubble, bottom-right
 
-## Tech stack
+## API endpoints
 
-React + Vite + TypeScript · Tailwind CSS · React Router · lucide-react icons · Supabase (optional) · Gemini (optional).
-
-## Features
-
-**Storefront** — home with promos + packs, category pages, product pages, cart with cash-on-delivery checkout, offer badges (strikethrough + % off).
-
-**Admin dashboard** (`/admin`)
-- **Dashboard** — KPIs (active products, packs, offers, stock value) + low-stock list.
-- **Produits** — searchable table; add/edit products in a dialog with image URL, stock, active toggle, and a key/value **specs editor**.
-- **Packs** — the "add packet easily" builder (e.g. **Pack Mariage**): search the catalog, click to add products, set quantities, optionally set a pack price, and see the **customer saving computed live**.
-- **Offres & Promos** — create % or fixed-DA discounts scoped to a product, a category, or the whole site, with start/end dates and status (active/scheduled/expired). The storefront applies the best live offer automatically.
-
-**AI assistant** — a simple chat bot that reads the live catalog and guides shoppers by need and **budget**, restricted to ElectroZone data only. Works offline via a rule-based fallback; add a Gemini key for real LLM answers.
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| GET | `/api/catalog` | — | Full catalog (categories, products, bundles, offers) |
+| GET | `/api/categories` | — | All categories |
+| GET | `/api/products` | — | All products |
+| GET | `/api/products/:id` | — | Single product |
+| GET | `/api/products/by-category/:slug` | — | Products in a category |
+| POST | `/api/products` | admin | Create or update a product |
+| DELETE | `/api/products/:id` | admin | Delete a product |
+| GET | `/api/bundles` | — | All bundles |
+| GET | `/api/bundles/:id` | — | Single bundle |
+| POST | `/api/bundles` | admin | Create or update a bundle |
+| DELETE | `/api/bundles/:id` | admin | Delete a bundle |
+| GET | `/api/offers` | — | All offers |
+| POST | `/api/offers` | admin | Create or update an offer |
+| DELETE | `/api/offers/:id` | admin | Delete an offer |
+| POST | `/api/orders` | — | Place an order |
+| GET | `/api/orders` | admin | List all orders |
+| POST | `/api/assistant` | — | Ask the AI assistant |
+| POST | `/api/auth/login` | — | Admin login → JWT |
 
 ## Optional: enable Gemini (real AI)
 
-1. Get a free key at [Google AI Studio](https://aistudio.google.com/app/apikey).
-2. `cp .env.example .env.local` and set `VITE_GEMINI_API_KEY=...`
-3. Restart `npm run dev`.
+Set `GEMINI_API_KEY` in `apps/api/.env` (get a free key at [Google AI Studio](https://aistudio.google.com/app/apikey)).
+The key stays server-side — the frontend calls `/api/assistant`, the backend calls Gemini.
+If no key is set, the assistant falls back to a rule-based reply.
 
-The assistant sends the live product catalog as the **only** allowed knowledge source, with a strict system prompt (stay on ElectroZone data, respect budget, never invent products).
+## Tech stack
 
-> Security note: for the hackathon the key is used client-side for simplicity. For production, move the Gemini call to a Supabase Edge Function so the key isn't exposed. The `askAssistant` function in `src/lib/gemini.ts` is the single place to swap.
-
-## Optional: enable Supabase (real backend)
-
-1. Create a project at [supabase.com](https://supabase.com).
-2. Run `supabase/schema.sql` in the SQL editor (creates tables + RLS policies).
-3. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local`.
-4. Migrate the read/write helpers in `src/data/store.ts` from localStorage to Supabase queries (the client is ready in `src/lib/supabase.ts`).
-
-## Project structure
-
-```
-src/
-├── lib/          supabase, gemini (assistant), offers pricing, format
-├── types/        Product, Bundle, Offer, Category
-├── data/         seed (real products) + store (localStorage data layer)
-├── context/      CartContext
-├── components/   Navbar, Footer, ProductCard, AssistantWidget
-└── features/
-    ├── storefront/  Home, Category, ProductPage, Cart
-    └── admin/       AdminLayout, Dashboard, Products, Bundles, Offers
-supabase/schema.sql
-```
-
-## Demo script (for judges)
-
-1. Add a product live in ~20s (Admin → Produits → Ajouter).
-2. Build a **Pack Mariage** from 4 appliances, set a pack price, show the live saving.
-3. Create a "-15% machine à café" offer, then open the storefront to see the badge applied.
-4. Open the assistant, type a budget in DA (e.g. "frigo pour 130000 DA"), watch it recommend real in-stock items; then ask something off-topic and see it politely refuse.
-
-## Reset
-
-Admin sidebar → "Réinitialiser la démo" restores the seeded data.
+React + Vite + TypeScript · Tailwind CSS · React Router · Express · Prisma · PostgreSQL · Zod · JWT · lucide-react · Gemini (optional)
