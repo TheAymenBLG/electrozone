@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Zap, Play, ShieldCheck, Truck, Headphones, ArrowRight } from "lucide-react";
 import { useProducts, useOffers, useCategories } from "../../data/store";
 import ProductCard from "../../components/ProductCard";
+import ScrollVelocity from "../../components/ui/ScrollVelocity";
 import { priceProduct } from "../../lib/offers";
 import { BRANDS, BANNER_FOURS } from "../../data/brand";
 
@@ -133,18 +134,23 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* BRANDS */}
-      <section className="max-w-[1440px] mx-auto px-5 md:px-10 mt-20">
-        <h2 className="font-head font-bold text-2xl md:text-4xl mb-2">
-          Nos <span className="text-gold">marques</span> populaires
-        </h2>
-        <div className="w-24 h-1 bg-gold mb-8" />
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {BRANDS.slice(0, 6).map((b) => (
-            <div key={b} className="bg-navy-card border border-edge rounded-lg h-24 flex items-center justify-center text-center px-3 glow-hover transition-all">
-              <span className="font-head font-bold text-cloud/70 hover:text-gold transition-colors">{b}</span>
-            </div>
-          ))}
+      {/* BRANDS — scrolling marquee */}
+      <section className="mt-20">
+        <div className="max-w-[1440px] mx-auto px-5 md:px-10 mb-6">
+          <h2 className="font-head font-bold text-2xl md:text-4xl">
+            Nos <span className="text-gold">marques</span> populaires
+          </h2>
+          <div className="w-24 h-1 bg-gold mt-2" />
+        </div>
+        <div className="border-y border-edge bg-navy-deep py-6 space-y-1">
+          <ScrollVelocity
+            texts={[BRANDS.slice(0, 6).join(" • "), BRANDS.slice(6).join(" • ")]}
+            velocity={40}
+            numCopies={4}
+            damping={60}
+            stiffness={300}
+            className="text-cloud/60"
+          />
         </div>
       </section>
     </div>
